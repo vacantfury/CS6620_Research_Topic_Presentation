@@ -10,10 +10,12 @@ Focused on 3 core papers:
 With brief mentions of 3 supplementary papers where relevant.
 
 Usage: python ppt.py
-Output: presentation.pptx
+Output: presentation.pptx, presentation.pdf
 """
 
 import os
+import subprocess
+import platform
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
@@ -237,24 +239,24 @@ def slide_02_background(prs):
     add_accent_bar(slide, Inches(6.7), Inches(1.95), Inches(2.0), Inches(0.04))
 
     items = [
-        ("Auto-scaling: ", "Applications scale up/down on demand automatically"),
-        ("Pay-per-use: ", "Charged only when your function is actually running"),
-        ("No server management: ", "Cloud provider handles all infrastructure"),
-        ("Event-driven: ", "Functions triggered by HTTP requests, queues, etc."),
-        ("Stateless: ", "Functions are ephemeral — no persistent state"),
+        ("Auto-scaling: ", "Scale up/down automatically on demand"),
+        ("Pay-per-use: ", "Charged only when your function runs"),
+        ("No server mgmt: ", "Provider handles all infrastructure"),
+        ("Event-driven: ", "Triggered by HTTP, queues, storage events"),
+        ("Stateless: ", "Ephemeral functions — no persistent state"),
     ]
     add_bullet_list(slide, Inches(6.7), Inches(2.3), Inches(6.0), Inches(3.0),
-                    items, font_size=16, spacing=1.6)
+                    items, font_size=15, spacing=1.5)
 
-    # Key facts card
-    card = add_card(slide, Inches(6.7), Inches(5.5), Inches(5.8), Inches(1.4),
+    # Key facts card — positioned right below bullets
+    card = add_card(slide, Inches(6.7), Inches(4.8), Inches(5.8), Inches(1.0),
                     fill_color=RGBColor(0xF0, 0xFD, 0xFA))
-    add_textbox(slide, Inches(7.0), Inches(5.6), Inches(5.3), Inches(0.5),
-                "Two Main Models", font_size=16, color=TEAL, bold=True)
-    add_textbox(slide, Inches(7.0), Inches(6.0), Inches(5.3), Inches(0.8),
-                "• FaaS (Function-as-a-Service) — deploy code as event-driven functions\n"
-                "• BaaS (Backend-as-a-Service) — managed cloud services (DB, storage, auth)",
-                font_size=14, color=DARK_TEXT, line_spacing=1.5)
+    add_textbox(slide, Inches(7.0), Inches(4.85), Inches(5.3), Inches(0.3),
+                "Two Main Models", font_size=15, color=TEAL, bold=True)
+    add_textbox(slide, Inches(7.0), Inches(5.15), Inches(5.3), Inches(0.55),
+                "• FaaS — deploy code as event-driven functions\n"
+                "• BaaS — consume managed cloud services (DB, storage, auth)",
+                font_size=14, color=DARK_TEXT, line_spacing=1.4)
 
 
 def slide_03_survey(prs):
@@ -284,9 +286,9 @@ def slide_03_survey(prs):
                     scope_items, font_size=15, spacing=1.5)
 
     # History card
-    card = add_card(slide, Inches(0.8), Inches(5.0), Inches(5.5), Inches(1.2),
+    card = add_card(slide, Inches(0.8), Inches(5.6), Inches(5.5), Inches(1.2),
                     fill_color=RGBColor(0xF0, 0xFD, 0xFA))
-    add_textbox(slide, Inches(1.1), Inches(5.1), Inches(5.0), Inches(1.0),
+    add_textbox(slide, Inches(1.1), Inches(5.7), Inches(5.0), Inches(0.9),
                 "📅  Timeline:\n"
                 "2014 — AWS Lambda launched  •  2016 — Google & Microsoft adopt\n"
                 "2020 — Mature ecosystem with 10+ commercial platforms",
@@ -309,9 +311,9 @@ def slide_03_survey(prs):
                     challenges, font_size=15, spacing=1.45, bullet_color=CORAL)
 
     # Gap callout
-    card2 = add_card(slide, Inches(7.0), Inches(5.8), Inches(5.5), Inches(1.0),
+    card2 = add_card(slide, Inches(7.0), Inches(5.6), Inches(5.5), Inches(1.2),
                      fill_color=RGBColor(0xFF, 0xF7, 0xED))
-    add_textbox(slide, Inches(7.3), Inches(5.9), Inches(5.0), Inches(0.8),
+    add_textbox(slide, Inches(7.3), Inches(5.7), Inches(5.0), Inches(0.9),
                 "⚠️  Critical Gap: No coverage of AI/ML/LLM workloads.\n"
                 "      This gap motivates the next two papers.",
                 font_size=14, color=RGBColor(0x92, 0x40, 0x0E), bold=True)
@@ -440,10 +442,14 @@ def slide_06_serverlessllm(prs):
 
     add_header_bar(slide, "SERVERLESSLLM: SOLVING THE COLD START PROBLEM")
 
-    # Citation
-    add_textbox(slide, Inches(0.8), Inches(1.2), Inches(11.5), Inches(0.4),
-                "Fu et al. (2024)  —  OSDI '24 (USENIX)  •  One of the premier systems conferences",
-                font_size=15, color=MUTED_TEXT)
+    # Paper info — explicit title, authors, publication (per requirements)
+    add_textbox(slide, Inches(0.8), Inches(1.15), Inches(11.5), Inches(0.3),
+                '"ServerlessLLM: Low-Latency Serverless Inference for Large Language Models"',
+                font_size=14, color=DARK_NAVY, bold=True)
+    add_textbox(slide, Inches(0.8), Inches(1.42), Inches(11.5), Inches(0.3),
+                "Yao Fu, Leyang Xue, Yeqi Huang, A.-O. Brabete, D. Ustiugov, Y. Patel, Luo Mai"
+                "  •  OSDI '24, USENIX, pp. 135–153, 2024",
+                font_size=12, color=MUTED_TEXT)
 
     # Left: architecture diagram
     arch_path = os.path.join(FIGURES_DIR, "serverlessllm_architecture.png")
@@ -572,10 +578,14 @@ def slide_08_slsdetector(prs):
 
     add_header_bar(slide, "DIRECTION 2: LLMs IMPROVING SERVERLESS")
 
-    # Citation
-    add_textbox(slide, Inches(0.8), Inches(1.2), Inches(11.5), Inches(0.4),
-                "Wen et al. (2026)  —  ACM TOSEM  •  SlsDetector: LLM-Based Misconfiguration Detection for AWS SAM",
-                font_size=15, color=MUTED_TEXT)
+    # Paper info — explicit title, authors, publication (per requirements)
+    add_textbox(slide, Inches(0.8), Inches(1.15), Inches(11.5), Inches(0.3),
+                '"LLM-Based Misconfiguration Detection for AWS Serverless Computing"',
+                font_size=14, color=DARK_NAVY, bold=True)
+    add_textbox(slide, Inches(0.8), Inches(1.42), Inches(11.5), Inches(0.3),
+                "Jinfeng Wen, Zhenpeng Chen, Zixi Zhu, F. Sarro, Yi Liu, Haodi Ping, Shangguang Wang"
+                "  •  ACM TOSEM, 35(4), Article 110, 2026",
+                font_size=12, color=MUTED_TEXT)
 
     # ── LEFT COLUMN: Problem ──
     add_textbox(slide, Inches(0.8), Inches(1.8), Inches(5.5), Inches(0.5),
@@ -834,6 +844,43 @@ def slide_11_references(prs):
 # MAIN
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def convert_to_pdf(pptx_path, output_dir):
+    """Convert PPTX to PDF using LibreOffice."""
+    soffice_paths = [
+        "/Applications/LibreOffice.app/Contents/MacOS/soffice",  # macOS
+        "soffice",  # Linux / PATH
+        "libreoffice",  # Linux alt
+    ]
+
+    soffice = None
+    for path in soffice_paths:
+        try:
+            subprocess.run([path, "--version"], capture_output=True, timeout=5)
+            soffice = path
+            break
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            continue
+
+    if soffice is None:
+        print("⚠️  LibreOffice not found — skipping PDF conversion.")
+        print("   Install LibreOffice or convert manually: File → Export as PDF")
+        return None
+
+    print("📄 Converting to PDF via LibreOffice...")
+    result = subprocess.run(
+        [soffice, "--headless", "--convert-to", "pdf", "--outdir", output_dir, pptx_path],
+        capture_output=True, text=True, timeout=60
+    )
+
+    pdf_path = os.path.join(output_dir, os.path.splitext(os.path.basename(pptx_path))[0] + ".pdf")
+    if os.path.exists(pdf_path):
+        print(f"✅ PDF saved to: {pdf_path}")
+        return pdf_path
+    else:
+        print(f"⚠️  PDF conversion failed: {result.stderr}")
+        return None
+
+
 def main():
     prs = Presentation()
     prs.slide_width = SLIDE_WIDTH
@@ -855,6 +902,9 @@ def main():
     prs.save(OUTPUT_FILE)
     print(f"✅ Presentation saved to: {OUTPUT_FILE}")
     print(f"   Total slides: {len(prs.slides)}")
+
+    # Convert to PDF for submission
+    convert_to_pdf(OUTPUT_FILE, SCRIPT_DIR)
 
 
 if __name__ == "__main__":
