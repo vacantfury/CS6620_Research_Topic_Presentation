@@ -317,12 +317,74 @@ def slide_03_survey(prs):
                 font_size=14, color=RGBColor(0x92, 0x40, 0x0E), bold=True)
 
 
-def slide_04_new_frontier(prs):
-    """Slide 4: The New Frontier — LLM Inference On Serverless"""
+def slide_04_roadmap(prs):
+    """Slide 4: Two Research Directions — Roadmap with bidirectional figure"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
-    add_header_bar(slide, "THE NEW FRONTIER: LLM INFERENCE ON SERVERLESS", section_num=3)
+    add_header_bar(slide, "TWO RESEARCH DIRECTIONS", section_num=3)
+
+    # Subtitle
+    add_textbox(slide, Inches(0.8), Inches(1.25), Inches(11.5), Inches(0.4),
+                "The survey reveals a gap: no coverage of AI/LLM workloads. Recent research fills this gap in two directions.",
+                font_size=16, color=MUTED_TEXT)
+
+    # Bidirectional diagram — center
+    bidi_path = os.path.join(FIGURES_DIR, "bidirectional_relationship.png")
+    if os.path.exists(bidi_path):
+        slide.shapes.add_picture(bidi_path,
+                                 Inches(3.5), Inches(1.8), Inches(6.3), Inches(4.2))
+
+    # Left: Direction 1 card
+    card1 = add_card(slide, Inches(0.5), Inches(2.0), Inches(3.0), Inches(3.8),
+                     fill_color=RGBColor(0xF0, 0xFD, 0xFA))
+    add_shape(slide, MSO_SHAPE.RECTANGLE,
+              Inches(0.5), Inches(2.0), Inches(3.0), Inches(0.06), fill_color=TEAL)
+    add_textbox(slide, Inches(0.7), Inches(2.2), Inches(2.6), Inches(0.5),
+                "Direction 1", font_size=14, color=TEAL, bold=True)
+    add_textbox(slide, Inches(0.7), Inches(2.6), Inches(2.6), Inches(0.5),
+                "Serverless Serves LLMs", font_size=18, color=DARK_NAVY, bold=True)
+    add_textbox(slide, Inches(0.7), Inches(3.2), Inches(2.6), Inches(2.3),
+                "How do we deploy LLMs\n"
+                "on serverless platforms?\n\n"
+                "• Cold start solutions\n"
+                "• Multi-tier storage\n"
+                "• Live migration\n\n"
+                "→ ServerlessLLM (OSDI '24)",
+                font_size=13, color=DARK_TEXT, line_spacing=1.4)
+
+    # Right: Direction 2 card
+    card2 = add_card(slide, Inches(9.8), Inches(2.0), Inches(3.0), Inches(3.8),
+                     fill_color=RGBColor(0xFF, 0xF7, 0xED))
+    add_shape(slide, MSO_SHAPE.RECTANGLE,
+              Inches(9.8), Inches(2.0), Inches(3.0), Inches(0.06), fill_color=CORAL)
+    add_textbox(slide, Inches(10.0), Inches(2.2), Inches(2.6), Inches(0.5),
+                "Direction 2", font_size=14, color=CORAL, bold=True)
+    add_textbox(slide, Inches(10.0), Inches(2.6), Inches(2.6), Inches(0.5),
+                "LLMs Improve Serverless", font_size=18, color=DARK_NAVY, bold=True)
+    add_textbox(slide, Inches(10.0), Inches(3.2), Inches(2.6), Inches(2.3),
+                "How can LLMs make\n"
+                "serverless more reliable?\n\n"
+                "• Misconfiguration detection\n"
+                "• Zero-shot prompting\n"
+                "• Chain-of-Thought reasoning\n\n"
+                "→ SlsDetector (TOSEM '26)",
+                font_size=13, color=DARK_TEXT, line_spacing=1.4)
+
+    # Bottom: presentation structure note
+    card3 = add_card(slide, Inches(0.8), Inches(6.3), Inches(11.7), Inches(0.9),
+                     fill_color=LIGHT_GRAY)
+    add_textbox(slide, Inches(1.1), Inches(6.4), Inches(11.2), Inches(0.7),
+                "📋  Presentation Structure:   Survey Foundations  →  Direction 1: ServerlessLLM  →  Direction 2: SlsDetector  →  Open Questions",
+                font_size=15, color=DARK_NAVY, bold=True)
+
+
+def slide_05_new_frontier(prs):
+    """Slide 5: Why LLMs on Serverless — Benefits & Challenges"""
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    set_slide_bg(slide, WHITE)
+
+    add_header_bar(slide, "DIRECTION 1: LLM INFERENCE ON SERVERLESS")
 
     # Why this matters
     add_textbox(slide, Inches(0.8), Inches(1.4), Inches(11.5), Inches(0.5),
@@ -371,12 +433,12 @@ def slide_04_new_frontier(prs):
                 font_size=11, color=MUTED_TEXT)
 
 
-def slide_05_serverlessllm(prs):
-    """Slide 5: ServerlessLLM Deep Dive"""
+def slide_06_serverlessllm(prs):
+    """Slide 6: ServerlessLLM Deep Dive"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
-    add_header_bar(slide, "SERVERLESSLLM: SOLVING THE COLD START PROBLEM", section_num=4)
+    add_header_bar(slide, "SERVERLESSLLM: SOLVING THE COLD START PROBLEM")
 
     # Citation
     add_textbox(slide, Inches(0.8), Inches(1.2), Inches(11.5), Inches(0.4),
@@ -427,8 +489,8 @@ def slide_05_serverlessllm(prs):
                 font_size=15, color=TEAL, bold=True)
 
 
-def slide_06_serverlessllm_eval(prs):
-    """Slide 6: ServerlessLLM Evaluation Details"""
+def slide_07_serverlessllm_eval(prs):
+    """Slide 7: ServerlessLLM Evaluation Details"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
@@ -503,75 +565,92 @@ def slide_06_serverlessllm_eval(prs):
                 font_size=12, color=MUTED_TEXT, line_spacing=1.4)
 
 
-def slide_07_slsdetector(prs):
-    """Slide 7: SlsDetector — LLMs Improving Serverless"""
+def slide_08_slsdetector(prs):
+    """Slide 8: SlsDetector — LLMs Improving Serverless (full-width layout)"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
-    add_header_bar(slide, "THE REVERSE: LLMs IMPROVING SERVERLESS", section_num=5)
+    add_header_bar(slide, "DIRECTION 2: LLMs IMPROVING SERVERLESS")
 
     # Citation
     add_textbox(slide, Inches(0.8), Inches(1.2), Inches(11.5), Inches(0.4),
                 "Wen et al. (2026)  —  ACM TOSEM  •  SlsDetector: LLM-Based Misconfiguration Detection for AWS SAM",
                 font_size=15, color=MUTED_TEXT)
 
-    # Bidirectional diagram on the left
-    bidi_path = os.path.join(FIGURES_DIR, "bidirectional_relationship.png")
-    if os.path.exists(bidi_path):
-        slide.shapes.add_picture(bidi_path,
-                                 Inches(0.3), Inches(1.7), Inches(5.5), Inches(5.5))
-
-    # Right: Problem
-    add_textbox(slide, Inches(6.3), Inches(1.7), Inches(6.2), Inches(0.5),
+    # ── LEFT COLUMN: Problem ──
+    add_textbox(slide, Inches(0.8), Inches(1.8), Inches(5.5), Inches(0.5),
                 "The Misconfiguration Problem", font_size=22, color=DARK_NAVY, bold=True)
-    add_accent_bar(slide, Inches(6.3), Inches(2.2), Inches(1.8), Inches(0.04), color=CORAL)
+    add_accent_bar(slide, Inches(0.8), Inches(2.3), Inches(1.8), Inches(0.04), color=CORAL)
 
     problems = [
-        ("800+ AWS resource types ", "with complex dependencies"),
-        ("50,000+ IDs exposed ", "from a single S3 misconfiguration"),
+        ("800+ AWS resource types ", "with complex dependency chains"),
+        ("50,000+ IDs exposed ", "from a single S3 bucket misconfiguration"),
         ("4.9M customers breached ", "from API misconfiguration (DoorDash)"),
-        ("Traditional methods fail: ", "data-driven approaches need large datasets"),
+        ("Traditional methods fail: ", "data-driven approaches need large labeled datasets"),
     ]
-    add_bullet_list(slide, Inches(6.3), Inches(2.5), Inches(6.2), Inches(2.0),
-                    problems, font_size=14, spacing=1.5, bullet_color=CORAL)
+    add_bullet_list(slide, Inches(0.8), Inches(2.5), Inches(5.5), Inches(2.3),
+                    problems, font_size=15, spacing=1.6, bullet_color=CORAL)
 
-    # Solution
-    add_textbox(slide, Inches(6.3), Inches(4.3), Inches(6.2), Inches(0.5),
+    # ── LEFT COLUMN: Approach ──
+    add_textbox(slide, Inches(0.8), Inches(4.7), Inches(5.5), Inches(0.5),
                 "SlsDetector: The LLM Approach", font_size=20, color=DARK_NAVY, bold=True)
-    add_accent_bar(slide, Inches(6.3), Inches(4.75), Inches(1.8), Inches(0.04), color=TEAL)
+    add_accent_bar(slide, Inches(0.8), Inches(5.15), Inches(1.8), Inches(0.04), color=TEAL)
 
     approach = [
-        ("Zero-shot prompting ", "— no training data needed"),
+        ("Zero-shot prompting ", "— no training data required at all"),
         ("Chain-of-Thought ", "— step-by-step reasoning for complex configs"),
         ("Multi-dim constraints ", "— aligned to serverless config semantics"),
+        ("Structured output ", "— deterministic, explainable detection results"),
     ]
-    add_bullet_list(slide, Inches(6.3), Inches(5.0), Inches(6.2), Inches(1.5),
-                    approach, font_size=14, spacing=1.5)
+    add_bullet_list(slide, Inches(0.8), Inches(5.4), Inches(5.5), Inches(2.0),
+                    approach, font_size=15, spacing=1.5)
 
-    # Results metrics
+    # ── RIGHT COLUMN: Results ──
+    add_textbox(slide, Inches(7.0), Inches(1.8), Inches(5.5), Inches(0.5),
+                "Results (ChatGPT-4o on 110 config files)", font_size=22,
+                color=DARK_NAVY, bold=True)
+    add_accent_bar(slide, Inches(7.0), Inches(2.3), Inches(1.8), Inches(0.04), color=TEAL)
+
+    # Result metric cards — larger
     metrics = [
-        ("72.88%", "Precision"),
-        ("88.18%", "Recall"),
-        ("79.75%", "F1-Score"),
+        ("72.88%", "Precision", "+53.82 pp"),
+        ("88.18%", "Recall", "+17.40 pp"),
+        ("79.75%", "F1-Score", "+49.72 pp"),
     ]
-    for i, (value, label) in enumerate(metrics):
-        x = Inches(6.5) + Inches(i * 2.1)
-        card = add_card(slide, x, Inches(6.3), Inches(1.9), Inches(1.0),
-                        fill_color=RGBColor(0xF0, 0xFD, 0xFA))
-        add_textbox(slide, x + Inches(0.1), Inches(6.33), Inches(1.7), Inches(0.5),
-                    value, font_size=22, color=TEAL, bold=True,
+    for i, (value, label, improvement) in enumerate(metrics):
+        x = Inches(7.0) + Inches(i * 2.0)
+        card = add_card(slide, x, Inches(2.6), Inches(1.8), Inches(2.2),
+                        fill_color=LIGHT_GRAY)
+        add_textbox(slide, x + Inches(0.1), Inches(2.7), Inches(1.6), Inches(0.7),
+                    value, font_size=30, color=TEAL, bold=True,
                     alignment=PP_ALIGN.CENTER)
-        add_textbox(slide, x + Inches(0.1), Inches(6.7), Inches(1.7), Inches(0.3),
-                    label + " (+50pp vs. SOTA)", font_size=10, color=DARK_TEXT,
+        add_textbox(slide, x + Inches(0.1), Inches(3.4), Inches(1.6), Inches(0.4),
+                    label, font_size=16, color=DARK_NAVY, bold=True,
+                    alignment=PP_ALIGN.CENTER)
+        add_textbox(slide, x + Inches(0.1), Inches(3.8), Inches(1.6), Inches(0.4),
+                    improvement + " vs. SOTA", font_size=13, color=TEAL,
                     alignment=PP_ALIGN.CENTER)
 
+    # Generalization section
+    add_textbox(slide, Inches(7.0), Inches(5.1), Inches(5.5), Inches(0.5),
+                "Generalizes Across LLMs", font_size=20, color=DARK_NAVY, bold=True)
+    add_accent_bar(slide, Inches(7.0), Inches(5.55), Inches(1.5), Inches(0.04), color=TEAL)
 
-def slide_08_synthesis_and_questions(prs):
-    """Slide 8: Synthesis + Open Research Question"""
+    llms = [
+        "ChatGPT-4o  •  Llama 3.1 (405B) Instruct",
+        "Gemini 1.5 Pro  •  DeepSeek V3",
+        "Consistent high effectiveness across all tested models",
+    ]
+    add_bullet_list(slide, Inches(7.0), Inches(5.8), Inches(5.5), Inches(1.5),
+                    llms, font_size=14, spacing=1.5, bullet_color=TEAL)
+
+
+def slide_09_synthesis_and_questions(prs):
+    """Slide 9: Synthesis + Open Research Question"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
-    add_header_bar(slide, "SYNTHESIS & OPEN RESEARCH QUESTION", section_num=6)
+    add_header_bar(slide, "SYNTHESIS & OPEN RESEARCH QUESTION")
 
     # ── LEFT: Narrative arc summary ──
     add_textbox(slide, Inches(0.8), Inches(1.4), Inches(5.5), Inches(0.5),
@@ -643,8 +722,8 @@ def slide_08_synthesis_and_questions(prs):
                     reasons, font_size=13, spacing=1.45, bullet_color=TEAL)
 
 
-def slide_09_conclusion(prs):
-    """Slide 9: Conclusion & Thank You"""
+def slide_10_conclusion(prs):
+    """Slide 10: Conclusion & Thank You"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, DARK_NAVY)
 
@@ -701,8 +780,8 @@ def slide_09_conclusion(prs):
                 color=MUTED_TEXT)
 
 
-def slide_10_references(prs):
-    """Slide 10: References (backup)"""
+def slide_11_references(prs):
+    """Slide 11: References (backup)"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     set_slide_bg(slide, WHITE)
 
@@ -760,17 +839,18 @@ def main():
     prs.slide_width = SLIDE_WIDTH
     prs.slide_height = SLIDE_HEIGHT
 
-    # Build all slides (10 total)
-    slide_01_title(prs)                # 1: Title
-    slide_02_background(prs)           # 2: Background - Serverless
-    slide_03_survey(prs)               # 3: Assigned Paper (deep)
-    slide_04_new_frontier(prs)         # 4: Transition - LLM on Serverless
-    slide_05_serverlessllm(prs)        # 5: ServerlessLLM (deep)
-    slide_06_serverlessllm_eval(prs)   # 6: ServerlessLLM Evaluation
-    slide_07_slsdetector(prs)          # 7: SlsDetector (deep)
-    slide_08_synthesis_and_questions(prs)  # 8: Synthesis + Open Question
-    slide_09_conclusion(prs)           # 9: Conclusion & Thank You
-    slide_10_references(prs)           # 10: References (backup)
+    # Build all slides (11 total)
+    slide_01_title(prs)                    # 1: Title
+    slide_02_background(prs)               # 2: Background - Serverless
+    slide_03_survey(prs)                   # 3: Assigned Paper (deep)
+    slide_04_roadmap(prs)                  # 4: Two Research Directions (bidirectional fig)
+    slide_05_new_frontier(prs)             # 5: Direction 1 - LLM on Serverless
+    slide_06_serverlessllm(prs)            # 6: ServerlessLLM (deep)
+    slide_07_serverlessllm_eval(prs)       # 7: ServerlessLLM Evaluation
+    slide_08_slsdetector(prs)              # 8: Direction 2 - SlsDetector (deep)
+    slide_09_synthesis_and_questions(prs)   # 9: Synthesis + Open Question
+    slide_10_conclusion(prs)               # 10: Conclusion & Thank You
+    slide_11_references(prs)               # 11: References (backup)
 
     prs.save(OUTPUT_FILE)
     print(f"✅ Presentation saved to: {OUTPUT_FILE}")
